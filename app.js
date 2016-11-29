@@ -4,14 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var expressHbs=require("express-handlebars");
 
+var expressHbs=require("express-handlebars");
 var passport = require('passport');
 var flash=require("connect-flash");
 
-
 var index = require('./routes/index');
 var users = require('./routes/users');
+
+var port=process.env.PORT || 3000;
 
 var app = express();
 
@@ -61,6 +62,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error',{layout:false});
+});
+
+app.listen(port,function(){
+	console.log("listening on port: "+port);
 });
 
 module.exports = app;

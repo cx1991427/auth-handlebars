@@ -2,29 +2,13 @@ var express = require('express');
 var router = express.Router();
 var passport=require("passport");
 
-//to delete
-var User=require("../models/user.js");
-
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-router.post("/",function(req,res,net){
-	var user=new User({
-  	email:req.body.email,
-  	password:req.body.password
-  });
-  user.save(function(err,result){
-  	console.log("stored to db");
-  });
-  res.json("done!");
-});
-
 router.get("/profile",isLoggedIn,function(req,res,next){
 	res.render("users/profile");
 });
 
+
+//sing up
 router.get("/signup", function(req,res){
   var messages=req.flash("signupMessage");
 	res.render("users/signup",{hasErrors:messages.length>0,messages:messages});
@@ -36,9 +20,10 @@ router.post("/signup", passport.authenticate("local-signup",{
      failureFlash : true // allow flash messages
 }));
 
+
+//sign in
 router.get("/signin", function(req,res){
   var messages=req.flash("loginMessage")
-  console.log(messages);
 	res.render("users/signin",{hasErrors:messages.length>0,messages:messages});
 });
 
@@ -48,6 +33,14 @@ router.post("/signin",passport.authenticate("local-signin",{
     failureFlash : true // allow flash messages
 }));
 
+
+//log out
+router.get("/logout",function(){
+  req.logout();
+  res.redirect("/");
+});
+
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {  
@@ -56,3 +49,16 @@ function isLoggedIn(req, res, next) {
   res.redirect('/');
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+console.log("2  from routes/user.js");

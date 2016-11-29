@@ -18,4 +18,4 @@ router.post("/", function(req,res,next){
 
 module.exports = router;
 
-console.log("from index.js");
+console.log("1  from routes/index.js");
